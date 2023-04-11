@@ -61,6 +61,28 @@ class Match {
     return this.discardPile[this.discardPile.length - 1];
   }
 
+  deckTopCard() {
+    if (!this.isDeckEmpty()) {
+      let pickedCard = this.deck[0];
+      this.deck.shift();
+      return pickedCard;
+    } else {
+      return null;
+    }
+  }
+
+  drawCards(thePlayer, noOfCards) {
+    for (let i = 0; i < noOfCards; i++) {
+      if (!this.isDeckEmpty()) {
+        let pickedCard = this.deck[0];
+        this.deck.shift();
+        thePlayer.hand.push(pickedCard);
+      } else {
+        return true;
+      }
+    }
+  }
+
   play() {
     //The Original Match Happens Here
     let thePlayer = this.players[0];
@@ -99,8 +121,35 @@ class Match {
           thePlayer =
             this.players[nextPlayer(this.players, thePlayer, reverseMode, 0)];
         } else if (matchedCard.rank == "Queen") {
+          thePlayer =
+            this.players[nextPlayer(this.players, thePlayer, reverseMode, 0)]; //The next player on the sequence
+          //This player should draw two cards
+          // console.log("**********")
+          // console.log(thePlayer)
+          let cardEmptyStatus = this.drawCards(thePlayer, 4);
+          // console.log(thePlayer)
+          // console.log("**********")
+          if (cardEmptyStatus == true) {
+            gameStatus = "Draw";
+            break;
+          }
+          thePlayer =
+            this.players[nextPlayer(this.players, thePlayer, reverseMode, 0)]; //The next player on the sequence to continue the game
         } else if (matchedCard.rank == "Jack") {
-          
+          thePlayer =
+            this.players[nextPlayer(this.players, thePlayer, reverseMode, 0)]; //The next player on the sequence
+          //This player should draw two cards
+          // console.log("**********")
+          // console.log(thePlayer)
+          let cardEmptyStatus = this.drawCards(thePlayer, 2);
+          // console.log(thePlayer)
+          // console.log("**********")
+          if (cardEmptyStatus == true) {
+            gameStatus = "Draw";
+            break;
+          }
+          thePlayer =
+            this.players[nextPlayer(this.players, thePlayer, reverseMode, 0)]; //The next player on the sequence to continue the game
         } else if (matchedCard.rank == "Ace") {
           thePlayer =
             this.players[nextPlayer(this.players, thePlayer, reverseMode, 1)];
