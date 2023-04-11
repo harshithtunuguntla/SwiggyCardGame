@@ -15,7 +15,7 @@ function nextPlayer(players,currentplayer,reverse,skipBy){
         i = (i+skipBy+1)%4;    
     }
 
-    return i;
+    return players[i];
   
 }
 

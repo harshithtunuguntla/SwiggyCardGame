@@ -81,18 +81,30 @@ class Match {
         return true;
       }
     }
+
+    }
+
+    didPlayerWin(thePlayer){
+      if(thePlayer.hand.length==0){
+        return thePlayer.name
+      }
+      else{
+        return null
+      }
+
   }
 
   play() {
     //The Original Match Happens Here
     let thePlayer = this.players[0];
-    let gameStatus = "InProgress";
+    let gameStatus = "Game is In Progress !";
 
     let reverseMode = false;
-    let k = 15;
+    let k = 10;
     while (k > 0) {
       //Until the game ends
       // console.log(thePlayer);
+
       console.log(thePlayer);
       let matchedCard = findMatch(this.discardPileTopCard(), thePlayer);
       console.log(this.discardPile[this.discardPile.length - 1]);
@@ -110,34 +122,22 @@ class Match {
         this.deck.shift();
         thePlayer.hand.push(pickedCard);
         thePlayer =
-          this.players[nextPlayer(this.players, thePlayer, reverseMode, 0)];
+          nextPlayer(this.players, thePlayer, reverseMode, 0);
       } else {
         // console.log(matchedCard.rank)
         this.discardPile.push(matchedCard); //While doing this check the rank
         // console.log(this.discardPileTopCard())
+        if(this.didPlayerWin(thePlayer)!=null){
+          gameStatus = thePlayer.name + " Won the match !!"
+          break
+        }
 
         if (matchedCard.rank == "King") {
           reverseMode = !reverseMode;
           thePlayer =
-            this.players[nextPlayer(this.players, thePlayer, reverseMode, 0)];
+            nextPlayer(this.players, thePlayer, reverseMode, 0);
         } else if (matchedCard.rank == "Queen") {
-          thePlayer =
-            this.players[nextPlayer(this.players, thePlayer, reverseMode, 0)]; //The next player on the sequence
-          //This player should draw two cards
-          // console.log("**********")
-          // console.log(thePlayer)
-          let cardEmptyStatus = this.drawCards(thePlayer, 4);
-          // console.log(thePlayer)
-          // console.log("**********")
-          if (cardEmptyStatus == true) {
-            gameStatus = "Draw";
-            break;
-          }
-          thePlayer =
-            this.players[nextPlayer(this.players, thePlayer, reverseMode, 0)]; //The next player on the sequence to continue the game
-        } else if (matchedCard.rank == "Jack") {
-          thePlayer =
-            this.players[nextPlayer(this.players, thePlayer, reverseMode, 0)]; //The next player on the sequence
+          thePlayer = nextPlayer(this.players, thePlayer, reverseMode, 0); //The next player on the sequence
           //This player should draw two cards
           // console.log("**********")
           // console.log(thePlayer)
@@ -148,19 +148,29 @@ class Match {
             gameStatus = "Draw";
             break;
           }
-          thePlayer =
-            this.players[nextPlayer(this.players, thePlayer, reverseMode, 0)]; //The next player on the sequence to continue the game
+          thePlayer = nextPlayer(this.players, thePlayer, reverseMode, 0); //The next player on the sequence to continue the game
+        } else if (matchedCard.rank == "Jack") {
+          thePlayer = nextPlayer(this.players, thePlayer, reverseMode, 0); //The next player on the sequence
+          //This player should draw two cards
+          // console.log("**********")
+          // console.log(thePlayer)
+          let cardEmptyStatus = this.drawCards(thePlayer, 4);
+          // console.log(thePlayer)
+          // console.log("**********")
+          if (cardEmptyStatus == true) {
+            gameStatus = "Game Ended in Draw !";
+            break;
+          }
+          thePlayer = nextPlayer(this.players, thePlayer, reverseMode, 0); //The next player on the sequence to continue the game
         } else if (matchedCard.rank == "Ace") {
-          thePlayer =
-            this.players[nextPlayer(this.players, thePlayer, reverseMode, 1)];
+          thePlayer = nextPlayer(this.players, thePlayer, reverseMode, 1);
         } else {
-          thePlayer =
-            this.players[nextPlayer(this.players, thePlayer, reverseMode, 0)];
+          thePlayer = nextPlayer(this.players, thePlayer, reverseMode, 0);
         }
       }
       console.log("------");
 
-      k = k - 1;
+      // k = k - 1;
     }
 
     console.log(gameStatus);
