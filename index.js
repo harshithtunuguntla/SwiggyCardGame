@@ -81,104 +81,138 @@ class Match {
         return true;
       }
     }
+  }
 
+  didPlayerWin(thePlayer) {
+    if (thePlayer.hand.length == 0) {
+      return thePlayer.name;
+    } else {
+      return null;
     }
+  }
 
-    didPlayerWin(thePlayer){
-      if(thePlayer.hand.length==0){
-        return thePlayer.name
-      }
-      else{
-        return null
-      }
-
+  cardNamesFromObject(thePlayer){
+    let cardsList = []
+    for(let i=0;i<thePlayer.hand.length;i++){
+      cardsList.push(thePlayer.hand[i].rank + " of " + thePlayer.hand[i].suit)
+    }
+    return cardsList
   }
 
   play() {
     //The Original Match Happens Here
     let thePlayer = this.players[0];
     let gameStatus = "Game is In Progress !";
-
     let reverseMode = false;
-    let k = 10;
-    while (k > 0) {
+    let turnTaken = 0;
+
+    while (true) {
       //Until the game ends
       // console.log(thePlayer);
+      turnTaken = turnTaken+1;
+      console.log("Current Player Name : " + thePlayer.name)
+      console.log("Cards in hand : " + this.cardNamesFromObject(thePlayer))
 
-      console.log(thePlayer);
       let matchedCard = findMatch(this.discardPileTopCard(), thePlayer);
-      console.log(this.discardPile[this.discardPile.length - 1]);
-      console.log(matchedCard);
+
+      console.log("Cards on top of discarded pile : " + this.discardPileTopCard().rank + " of " + this.discardPileTopCard().suit)
+      if(matchedCard!=null){
+      console.log("Cards matching to discard : " + matchedCard.rank + " of " + matchedCard.suit)
+      }
+      else{
+        console.log("Status : There are no matching cards to discard. " + thePlayer.name + " should pick a card.")
+      }
 
       //If matched card is null:
       if (matchedCard == null) {
         //pick a card from the deck
         if (this.isDeckEmpty()) {
-          gameStatus = "Draw";
+          console.log("Status : There are no cards available to draw.")
+          gameStatus = "Game Ends in Draw!";
           break;
         }
 
         let pickedCard = this.deck[0];
         this.deck.shift();
         thePlayer.hand.push(pickedCard);
-        thePlayer =
-          nextPlayer(this.players, thePlayer, reverseMode, 0);
+        thePlayer = nextPlayer(this.players, thePlayer, reverseMode, 0);
       } else {
         // console.log(matchedCard.rank)
         this.discardPile.push(matchedCard); //While doing this check the rank
         // console.log(this.discardPileTopCard())
-        if(this.didPlayerWin(thePlayer)!=null){
-          gameStatus = thePlayer.name + " Won the match !!"
-          break
+        if (this.didPlayerWin(thePlayer) != null) {
+          console.log(thePlayer.name + " completed all the cards.")
+          gameStatus = thePlayer.name + " Won the match !!";
+          break;
         }
 
         if (matchedCard.rank == "King") {
           reverseMode = !reverseMode;
-          thePlayer =
-            nextPlayer(this.players, thePlayer, reverseMode, 0);
+          console.log(thePlayer.name + " used King card.")
+          console.log("Status : The game will now go in reverse direction!")
+          thePlayer = nextPlayer(this.players, thePlayer, reverseMode, 0);
         } else if (matchedCard.rank == "Queen") {
+          console.log(thePlayer.name + " used Queen card.")
           thePlayer = nextPlayer(this.players, thePlayer, reverseMode, 0); //The next player on the sequence
           //This player should draw two cards
-          // console.log("**********")
-          // console.log(thePlayer)
+          console.log(thePlayer.name + " should pick 2 cards")
           let cardEmptyStatus = this.drawCards(thePlayer, 2);
-          // console.log(thePlayer)
-          // console.log("**********")
           if (cardEmptyStatus == true) {
-            gameStatus = "Draw";
+            console.log("Status : There are no cards available to draw.")
+            gameStatus = "Game Ends in Draw!";
             break;
           }
           thePlayer = nextPlayer(this.players, thePlayer, reverseMode, 0); //The next player on the sequence to continue the game
         } else if (matchedCard.rank == "Jack") {
+          console.log(thePlayer.name + " used Jack card.")
           thePlayer = nextPlayer(this.players, thePlayer, reverseMode, 0); //The next player on the sequence
-          //This player should draw two cards
-          // console.log("**********")
-          // console.log(thePlayer)
+          console.log(thePlayer.name + " should pick 4 cards.")
           let cardEmptyStatus = this.drawCards(thePlayer, 4);
-          // console.log(thePlayer)
-          // console.log("**********")
           if (cardEmptyStatus == true) {
             gameStatus = "Game Ended in Draw !";
             break;
           }
           thePlayer = nextPlayer(this.players, thePlayer, reverseMode, 0); //The next player on the sequence to continue the game
         } else if (matchedCard.rank == "Ace") {
-          thePlayer = nextPlayer(this.players, thePlayer, reverseMode, 1);
+          console.log(thePlayer.name + " used Ace card.")
+          thePlayer = nextPlayer(this.players, thePlayer, reverseMode, 0);
+          console.log(thePlayer.name + " is skipped.")
+          thePlayer = nextPlayer(this.players, thePlayer, reverseMode, 0);
         } else {
           thePlayer = nextPlayer(this.players, thePlayer, reverseMode, 0);
         }
       }
-      console.log("------");
+      console.log("-   -   -   -");
 
-      // k = k - 1;
     }
 
-    console.log(gameStatus);
+    console.log("")
+    console.log("*** Game Result ***")
+    console.log("Final Verdict : " + gameStatus)
+    console.log("Turns Taken : " + turnTaken);
   }
 }
 
 let m = new Match();
-m.createPlayers();
+m.createPlayers(); 
 m.distributeCards(5);
 m.createDiscardPile();
 m.play();
+
+// TODO
+// Need to show the output of the match
+// Take userinput for the player names
+// No of turns, Game Stats at the end of the game
+// Need to optimise the code
+// Need to improve the readability of the code
+// Need to improvise helper files
+// Improvise the naming convention
+// Add more clear and consice comments
+// Breakdown the game play into more methods
+// If possible, need to add the manual game play
+// Improve the code for multiplayer mode, change it from 4 players mode to min 2 players mode
+// Handle the case when players*cards exceed 52
+// Need to add the unit tests for the cases
+// Need to document the code and the useage
+// Remove/comment all the console logs
+// Put semicolons
