@@ -1,0 +1,4 @@
+Features to Implement to develop this Multiplayer card Game
+1. Create the end points for the same to start game, play game, shuffle etc [This requires complete breakdown]
+2. Develop classes, functions to perform those actions
+

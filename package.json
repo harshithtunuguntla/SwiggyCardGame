@@ -1,0 +1,14 @@
+{
+  "name": "swiggycardgame",
+  "version": "1.0.0",
+  "description": "This is a card game server for multiplayer mode.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Harshith Sai Tunuguntla",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
