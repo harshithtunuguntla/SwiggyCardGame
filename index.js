@@ -66,11 +66,11 @@ class Match {
     let thePlayer = this.players[0];
     let gameStatus = "InProgress";
 
+    let reverseMode = false;
     let k = 15;
     while (k > 0) {
       //Until the game ends
       // console.log(thePlayer);
-      let reverseMode = false;
       console.log(thePlayer);
       let matchedCard = findMatch(this.discardPileTopCard(), thePlayer);
       console.log(this.discardPile[this.discardPile.length - 1]);
@@ -100,6 +100,7 @@ class Match {
             this.players[nextPlayer(this.players, thePlayer, reverseMode, 0)];
         } else if (matchedCard.rank == "Queen") {
         } else if (matchedCard.rank == "Jack") {
+          
         } else if (matchedCard.rank == "Ace") {
           thePlayer =
             this.players[nextPlayer(this.players, thePlayer, reverseMode, 1)];
