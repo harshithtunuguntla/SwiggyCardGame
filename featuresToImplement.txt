@@ -1,18 +1,17 @@
 Features to Implement to develop this Multiplayer card Game
-1. Create the end points for the same to start game, play game, shuffle etc [This requires complete breakdown]
-2. Develop classes, functions to perform those actions
+1. Create functionalities for start game, play game, shuffle etc [This requires complete breakdown] - Done
+2. Develop classes, functions to perform those actions - Done
 3. Create Methods for all the classes to perform specific actions
-    1. For card class it should be shuffle, distribute cards methods 
-    2. For player class it should be play, draw, details of the player
-    3. For game class it should be play, end methods
-4. Make the classes with proper arrangement of cards, suits, rank and action
-5. No of cards to distribute should be dynamic
-6. Make sure to display the results of the game at every step
-7. Mention the status of the drawPile and discardPile separately(if required)
-8. Error Handling at each step, Variable Convention, Readability
+    1. For card class it should be shuffle, distribute cards methods - Done
+    2. For player class it should be play, draw, details of the player - Done
+    3. For game class it should be play, end methods - Done
+4. Make the classes with proper arrangement of cards, suits, rank and action - Done
+5. No of cards to distribute should be dynamic - Need to work on this
+6. Make sure to display the results of the game at every step - Done
+7. Mention the status of the drawPile and discardPile separately(if required) - Not required
+8. Error Handling at each step, Variable Convention, Readability - Working
 
 
 Play Mode :
-Automatic or Manual
-Show suggestion on which card is matching
-
+Automatic or Manual - Automatic
+Show suggestion on which card is matching - Not necessary in automatic card selection
