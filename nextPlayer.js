@@ -1,9 +1,9 @@
-function nextPlayer(players,currentplayer,reverse){
+function nextPlayer(players,currentplayer,reverse,skipBy){
 
     let i = players.indexOf(currentplayer)
 
 
-    if(reverse==1){
+    if(reverse==true){
       i = i-1
       if(i<0){
         i = -i
@@ -12,7 +12,7 @@ function nextPlayer(players,currentplayer,reverse){
       i = i%4
     }
     else{
-        i = (i+1)%4;    
+        i = (i+skipBy+1)%4;    
     }
 
     return i;
