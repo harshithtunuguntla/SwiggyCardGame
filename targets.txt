@@ -1,6 +1,8 @@
 Targets to acheive this product
 1. To complete the whole product coding
     1. To follow NodeJS to design the system
+    2. To convert the flow into chunks and organize the code
+    3. To optimize the code
 2. Complete UNIT Testing of the Product
 3. Document the complete API
 4. Write a detailed report to use the product

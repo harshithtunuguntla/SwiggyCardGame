@@ -1,149 +1,81 @@
-const express = require('express')
+const Player = require('./Player')
+const Deck = require('./Deck')
+const nextPlayer = require('./nextPlayer')
+const findMatch = require('./findMatch')
 
 
 
-const app = express();
-const port = 3000;
+const deck = new Deck();
+// console.log(deck.cards);
 
-//Define the player class
-class Player {
-    constructor(name, hand) {
-      this.name = name;
-      this.hand = [];
-    }
-}
-
-const suits = ['Spades', 'Hearts', 'Diamonds', 'Clubs'];
-const ranks = ['Ace', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'Jack', 'Queen', 'King'];
+deck.shuffle();
+// console.log(deck.cards);
 
 
-const deck = [];
-
-// Generate cards for each suit and rank
-for (const element of suits) {
-  for (let j = 0; j < ranks.length; j++) {
-    const card = {
-      suit: element,
-      rank: ranks[j]
-    };
-    deck.push(card);
+class Match{
+  constructor(){
+    this.deck = deck.cards
+    this.discardPile = []
+    this.players = []
   }
-}
 
-// console.log(deck);
+  createPlayers(){
+    let p1 = new Player('Harshith')
+    let p2 = new Player('Akhila')
+    let p3 = new Player('Surendra')
+    let p4 = new Player('Sishir')
+    this.players = [p1,p2,p3,p4]
+  }
 
-
-
-function shuffleArray(array) {
-    for (var i = array.length - 1; i > 0; i--) {
-        var j = Math.floor(Math.random() * (i + 1));
-        var temp = array[i];
-        array[i] = array[j];
-        array[j] = temp;
-    }
-}
-
-
-shuffleArray(deck);
-
-// console.log(deck);
-
-
-p1 = new Player('Harshith')
-p1.hand.push(deck[0])
-deck.shift()
-p1.hand.push(deck[0])
-deck.shift()
-p1.hand.push(deck[0])
-deck.shift()
-
-
-p2 = new Player('Pranay')
-p2.hand.push(deck[0])
-deck.shift()
-p2.hand.push(deck[0])
-deck.shift()
-p2.hand.push(deck[0])
-deck.shift()
-
-// console.log(p1);
-// console.log(p2);
-
-// console.log(deck.length);
-
-discardPile = []
-discardPile.push(deck[0])
-deck.shift()
-
-// console.log(discardPile[0])
-
-
-const readline = require("readline-sync");
-
-players = ['a','b','c','d']
-
-//Next player stratergy when reversed
-// i = 0
-// while(1){
-//   console.log(players[i]);
-
-//   let reverse = Number(readline.question());
-
-//     if(reverse==1){
-//       i = i-1
-//       if(i<0){
-//         i = -i
-//         i = 4-i
-//       }
-//       i = i%4
-//     }
-//     else{
-//         i = (i+1)%4;    
-//     }
-
-// }
-
-
-function findMatch(discardPileCard,currentPlayer){
-
-  console.log(currentPlayer.hand.length)
-  
-  for(let i=0;i<currentPlayer.hand.length;i++){
-    console.log(currentPlayer.hand[i].suit)
-    console.log(discardPileCard.suit)
-
-    if(currentPlayer.hand[i].suit == discardPileCard.suit || currentPlayer.hand[i].rank == discardPileCard.rank){
-      return currentPlayer.hand[i]
+  distributeCards(noOfCards){
+    for(let i=0;i<this.players.length;i++){
+      let currentPlayer = this.players[i]
+      for(let j=0;j<noOfCards;j++){
+        currentPlayer.hand.push(this.deck[0])
+        this.deck.shift()
+      }
     }
   }
-  return null
+
+  createDiscardPile(){
+    this.discardPile.push(this.deck[0])
+    this.deck.shift()
+  }
+
+  status(){
+    for(let i=0;i<this.players.length;i++){
+      console.log(this.players[i])
+    }
+  }
+
+  cardsInDeck(){
+    console.log(this.deck)
+  }
+
+  cardsInDiscardPile(){
+    console.log(this.discardPile)
+  }
+
+  isPileEmpty(){
+    return this.deck.length==0;
+  }
+
+  play(){
+    //The Original Match Happens Here
+
+  }
+
 
 }
 
 
-// 1
-// 2
-// 3
-// 4
-// 5
-// 6
-// 5
-// 4
-// 3
-// 2
-// 1
-// 0
-// -1 => 1
-// -2 => 2
-// -3
-// -4
-// -5
+let m = new Match()
+m.createPlayers()
+m.distributeCards(5)
+m.createDiscardPile()
 
-// 1 2 3 4 1 2 3 4 1 2 "if reverse"
-// 1 4 3 2 1 
 
-console.log(discardPile[0])
-console.log(p1)
+// m.status()
+m.play()
 
-let a = findMatch(discardPile[0],p1)
-console.log(a)
+
