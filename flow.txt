@@ -1,0 +1,32 @@
+FLOW OF THE GAME : 
+
+1. User will be prompted to take the input of the names of the players
+2. User should select the number of cards each player should be given with
+    Internal Performance : 
+        - If the number of cards * Players exceed 52, the game will not happen]
+3. Post entering the details users will see the scores of each player along with game highlights
+    Internal Performance : 
+        - After the details are shared, each player is created with their details and are set in ascending order for the play, the first given name begins the game
+        - The deck is shuffled using the inbuilt methods. It is now created as a stack
+        - As per the requirement, the cards are distributed to each player under their name
+        - Draw Pile and Discard Pile are created post the distribution
+        - Game starts with player 1 with the requirements mentioned
+            - If the player plays the card that matches either suit or rank, the card is added as top of the discard pile
+            
+                Possibility 1 : If it is a player plays a normal card(not an action card)
+                Result : The next player plays the game accordingly
+
+                Possibility 2 : If the player plays an action card
+                Result : The next player on the sequence bears the consequence accordingly
+
+                Possibility 3 : The player runs out of the cards
+                Result : The current player is declared the winner and the game ends
+
+            - If the player cannot play the card, the player picks a card from the draw pile and is added to current players pile
+
+4. At every step user will be prompted with the cards available in hand and will be asked to pick a card out of them
+5. Post entering the card, the action will be taken accordingly
+    Internal Performance:
+        User will be prompted all the cards availble and will be asked to pick the card he wants to discard
+        If the card picked is not available in the users hand, an error is thrown
+6. At the end of the game, user will be able to see the winner of the game
