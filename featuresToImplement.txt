@@ -1,17 +1,52 @@
 Features to Implement to develop this Multiplayer card Game
 1. Create functionalities for start game, play game, shuffle etc [This requires complete breakdown] - Done
 2. Develop classes, functions to perform those actions - Done
-3. Create Methods for all the classes to perform specific actions
+3. Create Methods for all the classes to perform specific actions - Done
     1. For card class it should be shuffle, distribute cards methods - Done
     2. For player class it should be play, draw, details of the player - Done
     3. For game class it should be play, end methods - Done
 4. Make the classes with proper arrangement of cards, suits, rank and action - Done
-5. No of cards to distribute should be dynamic - Need to work on this
+5. No of cards to distribute should be dynamic - Done
 6. Make sure to display the results of the game at every step - Done
-7. Mention the status of the drawPile and discardPile separately(if required) - Not required
+7. Mention the status of the drawPile and discardPile separately(if required) - Done
 8. Error Handling at each step, Variable Convention, Readability - Working
 
 
 Play Mode :
-Automatic or Manual - Automatic
-Show suggestion on which card is matching - Not necessary in automatic card selection
+Automatic or Manual - Automatic - Done
+Show suggestion on which card is matching - Not necessary in automatic card selection - Done
+
+
+TODO
+Take userinput for the player names - Done
+No of turns, Game Stats at the end of the game - Done
+Need to optimise the code
+Need to improve the readability of the code - Done, still needs improvement
+Need to improvise helper files - Done, will improvise more
+Improvise the naming convention
+Add more clear and consice comments
+Breakdown the game play into more methods
+If possible, need to add the manual game play
+Handle the case when players*cards exceed 52
+Need to add the unit tests for the cases
+Need to document the code and the useage
+Remove/comment all the console logs
+Put semicolons
+
+Is ther a need to create backend end points for the same?
+
+Need to show the output of the match in more good way
+Change all looping variables
+
+
+Can the person picking up the card play the immediate turn?
+
+
+
+Unit Tests : 
+- Should shuffle the entire deck
+- Test the distribute function, length of the deck post distribution
+- Test the discard pile and deck lengths after every turn
+- Test all the methods : deck, pile, createDiscardPile, createPlayers etc
+- Test all the helper files : findMatch, nextPlayer(need extensive test cases)
+- Break down and test all the action cards, if they are working properly or not

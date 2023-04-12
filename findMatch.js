@@ -1,8 +1,6 @@
 
 function findMatch(discardPileCard,currentPlayer){
 
-    // console.log(currentPlayer.name)
-    
     for(let i=0;i<currentPlayer.hand.length;i++){
   
       if(currentPlayer.hand[i].suit == discardPileCard.suit || currentPlayer.hand[i].rank == discardPileCard.rank){

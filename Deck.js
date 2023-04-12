@@ -20,9 +20,9 @@ class Deck{
     }
 
     shuffle() {
-    for (var i = this.cards.length - 1; i > 0; i--) {
-        var j = Math.floor(Math.random() * (i + 1));
-        var temp = this.cards[i];
+    for (let i = this.cards.length - 1; i > 0; i--) {
+        let j = Math.floor(Math.random() * (i + 1));
+        let temp = this.cards[i];
         this.cards[i] = this.cards[j];
         this.cards[j] = temp;
     }
