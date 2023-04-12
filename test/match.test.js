@@ -212,6 +212,99 @@ describe('Match', () => {
 
     });
 
+    describe("Turn to next player",()=>{
+
+        let match = new Match();
+
+        it("Should turn to next person on the right when reverse is false",function(){
+            p1 = new Player('player 1')
+            p2 = new Player('player 2')
+            p3 = new Player('player 3')
+            p4 = new Player('player 4')
+            match.players = [p1,p2,p3,p4]
+            match.currentPlayer = match.players[0]
+
+            match.turnToNextPlayer(0);
+            assert.equal(match.currentPlayer.name,"player 2")
+        });
+
+        it("Should properly turn to next person on the right when reverse is false, skip 1",function(){
+            match.turnToNextPlayer(1);
+            assert.equal(match.currentPlayer.name,"player 4")
+        });
+
+        it("Should properly turn to next person on the left when reverse is true, skip 2",function(){
+            match.reverseMode = true;
+            match.turnToNextPlayer(2);
+            assert.equal(match.currentPlayer.name,"player 1")
+        });
+
+        it("Should properly turn to next person and go in loop even when crossed the last person",function(){
+            match.reverseMode = true;
+            match.turnToNextPlayer(0);
+            assert.equal(match.currentPlayer.name,"player 4")
+        });
+
+    })
+
+
+    describe("Action Cards",()=>{
+
+        let match = new Match();
+
+        it("Immediate person should pick two cards when Queen card is used",function(){
+            p1 = new Player('player 1')
+            p2 = new Player('player 2')
+            p3 = new Player('player 3')
+            p4 = new Player('player 4')
+            match.players = [p1,p2,p3,p4]
+            match.currentPlayer = match.players[0]
+            
+            let nextPlayerCardsBefore = match.players[1].hand.length;
+            match.actionForQueen();
+            let nextPlayerCardsAfter = match.players[1].hand.length;
+
+
+            assert.equal(nextPlayerCardsBefore+2,nextPlayerCardsAfter)
+        });
+
+        it("The immediate person should be skipped when Queen card is used", function(){
+            assert.equal(match.currentPlayer.name,"player 3")
+        })
+
+        it("The immediate person should be pick 4 cards when Jack card is used", function(){
+           
+            let nextPlayerCardsBefore = match.players[3].hand.length;
+            match.actionForJack();
+            let nextPlayerCardsAfter = match.players[3].hand.length;
+
+            assert.equal(nextPlayerCardsBefore+4,nextPlayerCardsAfter)
+        })
+
+        it("The immediate person should be skipped when Jack card is used", function(){
+            assert.equal(match.currentPlayer.name,"player 1")
+        })
+
+        it("Game should reverse when King card is used",function(){
+            match.actionForKing();
+            assert.equal(match.reverseMode,true)
+        });
+
+        it("Game should reverse when King card is used, current player should change based on opposite direction",function(){
+            assert.equal(match.currentPlayer.name,"player 4")
+        });
+
+
+        it("The immediate person should be skipped when Ace card is used",function(){
+            match.actionForAce();
+            assert.equal(match.currentPlayer.name,"player 2")
+        });
+        
+
+
+
+
+    })
 
 
 

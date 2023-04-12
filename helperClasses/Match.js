@@ -79,7 +79,7 @@ class Match {
     initPlayerToBegin() {
       let randomPlayer = Math.floor(Math.random() * (this.playersCount))
       this.currentPlayer = this.players[randomPlayer];
-      console.log(this.currentPlayer);
+      // console.log(this.currentPlayer);
       console.log("\nPlayer will be picked randomly to begin the game!");
       console.log(this.currentPlayer.name + " will begin the match");
     }
