@@ -3,10 +3,12 @@ const assert = require('chai').assert;
 const Match = require('../helperClasses/Match');
 const Player = require('../helperClasses/Player');
 
+
 describe('Match', () => {
 
     let match;
 
+    // =====================CONSTRUCTOR===========================
 
 
     describe('Constructor',()=>{
@@ -37,14 +39,16 @@ describe('Match', () => {
 
     });
 
+    // =====================INITIALISE VARIABLES===========================
+
     describe('Initialise Variables',()=>{
 
-        let match = new Match()
+        let match = new Match();
 
-        p1 = new Player('Harshith')
-        p2 = new Player('Sai')
+        p1 = new Player('Harshith');
+        p2 = new Player('Sai');
 
-        match.players = [p1,p2]
+        match.players = [p1,p2];
         match.initCards = 3;
 
         match.distributeCards();
@@ -64,6 +68,8 @@ describe('Match', () => {
 
     });
 
+    // =====================DISCARD PILE===========================
+
 
     describe('Discard pile',()=>{
 
@@ -80,25 +86,28 @@ describe('Match', () => {
         });
 
         it('should have discard pile of length 2 when added', function() {
-            let card = { suit: 'Clubs', rank: '2' }
-            match.addCardOnDiscardPile(card)
+            let card = { suit: 'Clubs', rank: '2' };
+            match.addCardOnDiscardPile(card);
             assert.equal(match.discardPile.length,2);
         });
 
         it('should properly pick top card', function() {
-            let card = { suit: 'Clubs', rank: '2' }
-            let topCard = match.discardPileTopCard()
+            let card = { suit: 'Clubs', rank: '2' };
+            let topCard = match.discardPileTopCard();
             assert.deepEqual(card,topCard);
         });
 
         it('should return length of discard pile', function() {
-            let length = match.availableCardsInDiscardPile()
+            let length = match.availableCardsInDiscardPile();
             assert.equal(length,2);
         });
 
 
-
     });
+
+
+    // =====================DECK===========================
+
 
     describe('Deck',()=>{
 
@@ -110,10 +119,10 @@ describe('Match', () => {
         });
 
         it('should have deck of length 42 after distributing 5 cards to 2 players', function() {
-            p1 = new Player('Harshith')
-            p2 = new Player('Sai')
+            p1 = new Player('Harshith');
+            p2 = new Player('Sai');
 
-            match.players = [p1,p2]
+            match.players = [p1,p2];
             match.initCards = 5;
 
             match.distributeCards();
@@ -136,17 +145,19 @@ describe('Match', () => {
 
     });
 
+    // =====================DRAW CARDS===========================
+
 
     describe('Draw Cards',()=>{
         let match = new Match();
 
         it('Should initialize players and distribute cards', function() {
-            p1 = new Player('Harshith')
-            p2 = new Player('Sai')
+            p1 = new Player('Harshith');
+            p2 = new Player('Sai');
     
-            match.players = [p1,p2]
+            match.players = [p1,p2];
             match.initCards = 2;
-            match.distributeCards()
+            match.distributeCards();
             match.currentPlayer = match.players[0];
             assert.equal(match.didPlayerWin(),false); // Still there are cards left
         });
@@ -160,8 +171,8 @@ describe('Match', () => {
             let noOfCardsInDeckAfter = match.deck.length;
             let noOfCardsInHandAfter = match.currentPlayer.hand.length; 
 
-            assert.equal(noOfCardsInDeckBefore-1,noOfCardsInDeckAfter)
-            assert.equal(noOfCardsInHandBefore+1,noOfCardsInHandAfter)
+            assert.equal(noOfCardsInDeckBefore-1,noOfCardsInDeckAfter);
+            assert.equal(noOfCardsInHandBefore+1,noOfCardsInHandAfter);
 
         })
 
@@ -174,14 +185,15 @@ describe('Match', () => {
             let noOfCardsInDeckAfter = match.deck.length;
             let noOfCardsInHandAfter = match.currentPlayer.hand.length; 
 
-            assert.equal(noOfCardsInDeckBefore-2,noOfCardsInDeckAfter)
-            assert.equal(noOfCardsInHandBefore+2,noOfCardsInHandAfter)
+            assert.equal(noOfCardsInDeckBefore-2,noOfCardsInDeckAfter);
+            assert.equal(noOfCardsInHandBefore+2,noOfCardsInHandAfter);
 
         })
 
 
     });
 
+    // =====================PLAYER WIN CASE===========================
 
 
     describe('Player win',()=>{
@@ -189,12 +201,12 @@ describe('Match', () => {
         let match = new Match();
 
         it('Player win should show false when cards left', function() {
-            p1 = new Player('Harshith')
-            p2 = new Player('Sai')
+            p1 = new Player('Harshith');
+            p2 = new Player('Sai');
     
-            match.players = [p1,p2]
+            match.players = [p1,p2];
             match.initCards = 2;
-            match.distributeCards()
+            match.distributeCards();
             match.currentPlayer = match.players[0];
             assert.equal(match.didPlayerWin(),false); // Still there are cards left
         });
@@ -205,47 +217,53 @@ describe('Match', () => {
         });
 
         it('did player win should return true when no cards left', function() {
-            match.currentPlayer.hand.shift()
+            match.currentPlayer.hand.shift();
             assert.equal(match.didPlayerWin(),true); // Still there are cards left
         });
 
 
     });
 
+    // =====================NEXT PLAYER DECISION===========================
+
+
     describe("Turn to next player",()=>{
 
         let match = new Match();
 
         it("Should turn to next person on the right when reverse is false",function(){
-            p1 = new Player('player 1')
-            p2 = new Player('player 2')
-            p3 = new Player('player 3')
-            p4 = new Player('player 4')
-            match.players = [p1,p2,p3,p4]
-            match.currentPlayer = match.players[0]
+            p1 = new Player('player 1');
+            p2 = new Player('player 2');
+            p3 = new Player('player 3');
+            p4 = new Player('player 4');
+            match.players = [p1,p2,p3,p4];
+            match.currentPlayer = match.players[0];
 
             match.turnToNextPlayer(0);
-            assert.equal(match.currentPlayer.name,"player 2")
+            assert.equal(match.currentPlayer.name,"player 2");
         });
 
         it("Should properly turn to next person on the right when reverse is false, skip 1",function(){
             match.turnToNextPlayer(1);
-            assert.equal(match.currentPlayer.name,"player 4")
+            assert.equal(match.currentPlayer.name,"player 4");
         });
 
         it("Should properly turn to next person on the left when reverse is true, skip 2",function(){
             match.reverseMode = true;
             match.turnToNextPlayer(2);
-            assert.equal(match.currentPlayer.name,"player 1")
+            assert.equal(match.currentPlayer.name,"player 1");
         });
 
         it("Should properly turn to next person and go in loop even when crossed the last person",function(){
             match.reverseMode = true;
             match.turnToNextPlayer(0);
-            assert.equal(match.currentPlayer.name,"player 4")
+            assert.equal(match.currentPlayer.name,"player 4");
         });
 
     })
+
+
+    // =====================ACTION CARDS===========================
 
 
     describe("Action Cards",()=>{
@@ -253,23 +271,23 @@ describe('Match', () => {
         let match = new Match();
 
         it("Immediate person should pick two cards when Queen card is used",function(){
-            p1 = new Player('player 1')
-            p2 = new Player('player 2')
-            p3 = new Player('player 3')
-            p4 = new Player('player 4')
-            match.players = [p1,p2,p3,p4]
-            match.currentPlayer = match.players[0]
+            p1 = new Player('player 1');
+            p2 = new Player('player 2');
+            p3 = new Player('player 3');
+            p4 = new Player('player 4');
+            match.players = [p1,p2,p3,p4];
+            match.currentPlayer = match.players[0];
             
             let nextPlayerCardsBefore = match.players[1].hand.length;
             match.actionForQueen();
             let nextPlayerCardsAfter = match.players[1].hand.length;
 
 
-            assert.equal(nextPlayerCardsBefore+2,nextPlayerCardsAfter)
+            assert.equal(nextPlayerCardsBefore+2,nextPlayerCardsAfter);
         });
 
         it("The immediate person should be skipped when Queen card is used", function(){
-            assert.equal(match.currentPlayer.name,"player 3")
+            assert.equal(match.currentPlayer.name,"player 3");
         })
 
         it("The immediate person should be pick 4 cards when Jack card is used", function(){
@@ -278,35 +296,29 @@ describe('Match', () => {
             match.actionForJack();
             let nextPlayerCardsAfter = match.players[3].hand.length;
 
-            assert.equal(nextPlayerCardsBefore+4,nextPlayerCardsAfter)
-        })
+            assert.equal(nextPlayerCardsBefore+4,nextPlayerCardsAfter);
+        });
 
         it("The immediate person should be skipped when Jack card is used", function(){
-            assert.equal(match.currentPlayer.name,"player 1")
+            assert.equal(match.currentPlayer.name,"player 1");
         })
 
         it("Game should reverse when King card is used",function(){
             match.actionForKing();
-            assert.equal(match.reverseMode,true)
+            assert.equal(match.reverseMode,true);
         });
 
         it("Game should reverse when King card is used, current player should change based on opposite direction",function(){
-            assert.equal(match.currentPlayer.name,"player 4")
+            assert.equal(match.currentPlayer.name,"player 4");
         });
 
 
         it("The immediate person should be skipped when Ace card is used",function(){
             match.actionForAce();
-            assert.equal(match.currentPlayer.name,"player 2")
+            assert.equal(match.currentPlayer.name,"player 2");
         });
         
 
-
-
-
-    })
-
-
-
+    });
   
-})
+});
