@@ -1,3 +1,4 @@
+const prompt = require('prompt-sync')();
 const Player = require("./Player");
 const Deck = require("./Deck");
 const nextPlayer = require("./nextPlayer");
@@ -13,21 +14,51 @@ class Match {
   constructor() {
     this.deck = deck.cards;
     this.discardPile = [];
+    this.playersCount = 0;
+    this.initCards = 100;
     this.players = [];
+    this.gameStatus = "Game is Initialised !";
+    this.turnTaken = 0;
+  }
+
+  initMatchVariables(){
+
+    while(this.playersCount < 2 || this.playersCount >4){
+      const playersCount = prompt('How many players do you want to play? [Min 2, Max 4] : ');
+      if(playersCount<2 || playersCount>4){
+        console.log('Please enter the selection in the range : [Min 2, Max 4] \n');
+      }
+      this.playersCount = playersCount
+    }
+
+    console.log("")
+
+    while(this.playersCount * this.initCards > 52){
+      const initCards = prompt('How many cards do you want to play for each person? : ');
+      if(this.playersCount*initCards>52){
+        console.log('There wont be sufficient cards for each person to being the game. Please enter less number of cards\n');
+      }
+      this.initCards = initCards
+    }
+
   }
 
   createPlayers() {
-    let p1 = new Player("Harshith");
-    let p2 = new Player("Akhila");
-    let p3 = new Player("Surendra");
-    let p4 = new Player("Sishir");
-    this.players = [p1, p2, p3, p4];
+    //To prompt and take user input for number of players and their details
+    
+    for(let j=0;j<this.playersCount;j++){
+      const playerName = prompt('Enter the name of the player ' + (j+1) + " : " );
+      let newPlayer = new Player(playerName);
+      this.players.push(newPlayer)
+
+    }
+
   }
 
-  distributeCards(noOfCards) {
+  distributeCards() {
     for (let i = 0; i < this.players.length; i++) {
       let currentPlayer = this.players[i];
-      for (let j = 0; j < noOfCards; j++) {
+      for (let j = 0; j < this.initCards; j++) {
         currentPlayer.hand.push(this.deck[0]);
         this.deck.shift();
       }
@@ -37,12 +68,6 @@ class Match {
   createDiscardPile() {
     this.discardPile.push(this.deck[0]);
     this.deck.shift();
-  }
-
-  status() {
-    for (let i = 0; i < this.players.length; i++) {
-      console.log(this.players[i]);
-    }
   }
 
   isDeckEmpty() {
@@ -91,116 +116,146 @@ class Match {
     return cardsList;
   }
 
+  printGameStatus() {
+    for (let i = 0; i < this.players.length; i++) {
+      console.log(this.players[i]);
+    }
+  }
+
+  printGameResult(){
+    console.log("");
+    console.log("*** Game Result ***");
+    console.log("Final Verdict : " + this.gameStatus);
+    console.log("Turns Taken : " + this.turnTaken);
+  }
+
+  printPlayerStatus(thePlayer){
+    console.log("Current Player Name : " + thePlayer.name);
+    console.log("Cards in hand : " + this.cardNamesFromObject(thePlayer));
+  }
+
+  printCardDetails(card,message){
+
+    console.log(
+      message +
+        card.rank +
+        " of " +
+        card.suit
+    );
+
+  }
+
+  printStatus(message){
+    console.log("Status : " + message)
+  }
+
   play() {
     //The Original Match Happens Here
 
     //Initialisations
     let thePlayer = this.players[0];
-    let gameStatus = "Game is In Progress !";
     let reverseMode = false;
-    let turnTaken = 0;
 
     while (true) {
       //Until the game ends
-      turnTaken = turnTaken + 1;
+      this.turnTaken = this.turnTaken + 1;
 
-      console.log("Current Player Name : " + thePlayer.name);
-      console.log("Cards in hand : " + this.cardNamesFromObject(thePlayer));
+
+      this.printPlayerStatus(thePlayer)
 
       let matchedCard = findMatch(this.discardPileTopCard(), thePlayer);
 
-      console.log(
-        "Cards on top of discarded pile : " +
-          this.discardPileTopCard().rank +
-          " of " +
-          this.discardPileTopCard().suit
-      );
-      
-      if (matchedCard != null) {
+      this.printCardDetails(this.discardPileTopCard(),"Card on top of discarded pile : ")
 
-        console.log(
-          "Cards matching to discard : " +
-            matchedCard.rank +
-            " of " +
-            matchedCard.suit
-        );
 
-      } else {
-
-        console.log(
-          "Status : There are no matching cards to discard. " +
-            thePlayer.name +
-            " should pick a card."
-        );
-
-      }
 
       //If matched card is null:
       if (matchedCard == null) {
 
+        this.printStatus("There are no matching cards to discard. " +
+            thePlayer.name +
+            " should pick a card."
+        );
+
         //pick a card from the deck
-        if (this.isDeckEmpty()) {
-          console.log("Status : There are no cards available to draw.");
-          gameStatus = "Game Ends in Draw!";
-          break;
+
+        if(this.drawCards(thePlayer,1)==true){
+          this.printStatus("Status : There are no cards available to draw.")
+          this.gameStatus = "Game Ends in Draw!";
+          break
+        }
+        else{
+          this.printStatus(thePlayer.name + " picks a card. Game continues")
+          thePlayer = nextPlayer(this.players, thePlayer, reverseMode, 0);
         }
 
-        let pickedCard = this.deck[0];
-        this.deck.shift();
-        thePlayer.hand.push(pickedCard);
-        thePlayer = nextPlayer(this.players, thePlayer, reverseMode, 0);
+        // if (this.isDeckEmpty()) {
+
+        //   break;
+        // }
+
+        // let pickedCard = this.deck[0];
+        // this.deck.shift();
+        // thePlayer.hand.push(pickedCard);
+        // thePlayer = nextPlayer(this.players, thePlayer, reverseMode, 0);
+        // this.printStatus(thePlayer.name + "has picked a card. Game continues")
+
+
       } 
       
       else {
 
+        this.printCardDetails(matchedCard,"Card matching to discard : ")
+
         this.discardPile.push(matchedCard); //While doing this check the rank
         if (this.didPlayerWin(thePlayer) != null) {
-          console.log(thePlayer.name + " completed all the cards.");
-          gameStatus = thePlayer.name + " Won the match !!";
+          this.printStatus(thePlayer.name + " completed all the cards.");
+          this.gameStatus = thePlayer.name + " won the match !!";
           break;
         }
 
         if (matchedCard.rank == "King") {
           reverseMode = !reverseMode;
-          console.log(thePlayer.name + " used King card.");
-          console.log("Status : The game will now go in reverse direction!");
+          this.printStatus(thePlayer.name + " used King card.");
+          this.printStatus("The game will now go in reverse direction!");
           thePlayer = nextPlayer(this.players, thePlayer, reverseMode, 0);
         } 
         
         else if (matchedCard.rank == "Queen") {
-          console.log(thePlayer.name + " discared Queen card.");
+          this.printStatus(thePlayer.name + " discared Queen card.");
           thePlayer = nextPlayer(this.players, thePlayer, reverseMode, 0); //The next player on the sequence
           //This player should draw two cards
-          console.log(thePlayer.name + " should pick 2 cards");
+          this.printStatus(thePlayer.name + " should pick 2 cards and is skipped from playing");
           let cardEmptyStatus = this.drawCards(thePlayer, 2);
           if (cardEmptyStatus == true) {
-            console.log("Status : There are no cards available to draw.");
-            gameStatus = "Game Ends in Draw!";
+            this.printStatus("There are no cards available to draw.");
+            this.gameStatus = "Game Ends in Draw!";
             break;
           }
           thePlayer = nextPlayer(this.players, thePlayer, reverseMode, 0); //The next player on the sequence to continue the game
         } 
         
         else if (matchedCard.rank == "Jack") {
-          console.log(thePlayer.name + " discared Jack card.");
+          this.printStatus(thePlayer.name + " discared Jack card.");
           thePlayer = nextPlayer(this.players, thePlayer, reverseMode, 0); //The next player on the sequence
-          console.log(thePlayer.name + " should pick 4 cards.");
+          this.printStatus(thePlayer.name + " should pick 4 cards and is skipped from playing");
           let cardEmptyStatus = this.drawCards(thePlayer, 4);
           if (cardEmptyStatus == true) {
-            gameStatus = "Game Ended in Draw !";
+            this.gameStatus = "Game Ended in Draw !";
             break;
           }
           thePlayer = nextPlayer(this.players, thePlayer, reverseMode, 0); //The next player on the sequence to continue the game
         }
         
         else if (matchedCard.rank == "Ace") {
-          console.log(thePlayer.name + " discared Ace card.");
+          this.printStatus(thePlayer.name + " discared Ace card.");
           thePlayer = nextPlayer(this.players, thePlayer, reverseMode, 0);
-          console.log(thePlayer.name + " is skipped.");
+          this.printStatus(thePlayer.name + " is skipped.");
           thePlayer = nextPlayer(this.players, thePlayer, reverseMode, 0);
         } 
         
         else {
+          this.printStatus(thePlayer.name +" discards the card. The game continues")
           thePlayer = nextPlayer(this.players, thePlayer, reverseMode, 0);
         }
 
@@ -208,19 +263,17 @@ class Match {
       console.log("-   -   -   -");
     }
 
-    console.log("");
-    console.log("*** Game Result ***");
-    console.log("Final Verdict : " + gameStatus);
-    console.log("Turns Taken : " + turnTaken);
   }
 
 }
 
 let m = new Match();
+m.initMatchVariables();
 m.createPlayers();
-m.distributeCards(5);
+m.distributeCards();
 m.createDiscardPile();
 m.play();
+m.printGameResult();
 
 // TODO
 // Take userinput for the player names
@@ -240,3 +293,7 @@ m.play();
 // Put semicolons
 
 // Need to show the output of the match in more good way
+// Change all looping variables
+
+
+//Can the person picking up the card play the immediate turn?

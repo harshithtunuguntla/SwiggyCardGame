@@ -1,18 +1,19 @@
 function nextPlayer(players,currentplayer,reverse,skipBy){
 
-    let i = players.indexOf(currentplayer)
+    let i = players.indexOf(currentplayer);
+    let totalPlayers = players.length;
 
 
     if(reverse==true){
       i = i-1
       if(i<0){
         i = -i
-        i = 4-i
+        i = totalPlayers-i
       }
-      i = i%4
+      i = i%totalPlayers
     }
     else{
-        i = (i+skipBy+1)%4;    
+        i = (i+skipBy+1)%totalPlayers;    
     }
 
     return players[i];
