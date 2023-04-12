@@ -1,6 +1,9 @@
 # Description
 This is a 52-card deck card game for multiple players. The game moves forward with specific rules to raise and lower players' scores, thereby determining the winner.
 
+![Game Logo](https://user-images.githubusercontent.com/53993341/231511180-13844172-0725-44a9-8adc-414352c70a5c.jpg)
+
+
 # Game Play
 
 There will be a Deck of 52 Cards containing the combinations from suits[Spades, Hearts, Diamonds, Clubs] and Ranks [Ace,2,3,4,5,6,7,8,910,Jack,King,Queen]. x cards are then distributed among y players and players take turns to discard the cards they have to win the game.
@@ -58,8 +61,7 @@ The complete flow of the game from start to end with all the possibilities of wi
 
 # Demo
 
-Video Demonstration will appear here
-
+https://youtu.be/okjAbP9lw4Y
 
 # Test Cases
 
