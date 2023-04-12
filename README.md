@@ -53,7 +53,8 @@ After succesfull installation of the code and dependencies. Start the game by `n
 
 The complete flow of the game from start to end with all the possibilities of winning a game or ending the game in draw are detailed in the diagram.
 
-![Flowchart](https://user-images.githubusercontent.com/53993341/231504718-ce5280c1-ca3f-49c4-aeda-d69c5087c08b.png)
+![flowchart_nontransparent](https://user-images.githubusercontent.com/53993341/231505036-d96c9050-cf2e-478f-a0bd-7cb0cb97734d.png)
+
 
 # Demo
 
