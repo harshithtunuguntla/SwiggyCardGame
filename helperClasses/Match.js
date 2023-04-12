@@ -19,6 +19,8 @@ class Match {
       this.turnTaken = 0;
       this.currentPlayer = "";
       this.reverseMode = false;
+
+      // console.log(this.playersCount);
     }
   
     //initialise match variables such as number of players, cards for each player

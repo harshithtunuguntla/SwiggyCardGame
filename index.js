@@ -7,5 +7,5 @@ match.distributeCards();
 match.createDiscardPile();
 match.initPlayerToBegin();
 
-match.play();
-match.printGameResult();
+// match.play();
+// match.printGameResult();
