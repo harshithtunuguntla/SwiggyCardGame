@@ -1,8 +1,8 @@
 const prompt = require("prompt-sync")();
 const Player = require("./Player");
 const Deck = require("./Deck");
-const nextPlayer = require("./nextPlayer");
-const findMatch = require("./findMatch");
+const nextPlayer = require("../helperFunctions/nextPlayer");
+const findMatch = require("../helperFunctions/findMatch");
 
 
 class Match {

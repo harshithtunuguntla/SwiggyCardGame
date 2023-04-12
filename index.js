@@ -1,4 +1,4 @@
-const Match = require('./Match')
+const Match = require('./helperClasses/Match')
 
 let match = new Match();
 match.initMatchVariables();
@@ -7,5 +7,5 @@ match.distributeCards();
 match.createDiscardPile();
 match.initPlayerToBegin();
 
-// match.play();
-// match.printGameResult();
+match.play();
+match.printGameResult();
