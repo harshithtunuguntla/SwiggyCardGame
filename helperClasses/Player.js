@@ -1,12 +1,12 @@
 class Player {
-    constructor(name) {
-      this.name = name;
-      this.hand = [];
-    }
+  constructor(name) { //Initialising the player information
+    this.name = name;
+    this.hand = [];
+  }
 
-    insertCard(card){
-      this.hand.push(card);
-    }
+  insertCard(card) { //Inserting the card in the player 
+    this.hand.push(card);
+  }
 }
 
 module.exports = Player;
