@@ -20,6 +20,8 @@ class Match {
     this.gameStatus = "Game is Initialised !";
     this.turnTaken = 0;
     this.currentPlayer = "";
+    this.reverseMode = false;
+
   }
 
   initMatchVariables(){
@@ -49,7 +51,7 @@ class Match {
     console.log(this.currentPlayer)
   }
 
-  
+
   createPlayers() {
     //To prompt and take user input for number of players and their details
     for(let j=0;j<this.playersCount;j++){
@@ -138,9 +140,9 @@ class Match {
     console.log("Turns Taken : " + this.turnTaken);
   }
 
-  printPlayerStatus(currentPlayer){
-    console.log("Current Player Name : " + currentPlayer.name);
-    console.log("Cards in hand : " + this.cardNamesFromObject(currentPlayer));
+  printPlayerStatus(){
+    console.log("Current Player Name : " + this.currentPlayer.name);
+    console.log("Cards in hand : " + this.cardNamesFromObject(this.currentPlayer));
   }
 
   printCardDetails(message,card){
@@ -157,37 +159,98 @@ class Match {
     console.log("Status : " + message)
   }
 
+
+  turnToNextPlayer(skipCount){
+    this.currentPlayer = nextPlayer(this.players, this.currentPlayer, this.reverseMode, skipCount);
+  }
+
+
+  actionForKing(){
+    this.reverseMode = !this.reverseMode;
+    this.printStatus(this.currentPlayer.name + " used King card.");
+    this.printStatus("The game will now go in reverse direction!");
+    this.turnToNextPlayer(0);
+  }
+
+  actionForQueen(){
+
+    this.printStatus(this.currentPlayer.name + " discared Queen card.");
+          
+    let affectedPlayer = nextPlayer(this.players, this.currentPlayer, this.reverseMode, 0); //The next player on the sequence
+    this.printStatus(affectedPlayer.name + " should pick 2 cards and is skipped from playing");
+
+    if (this.drawCards(affectedPlayer, 2) == false) {
+      this.printStatus("There are no cards available to draw.");
+      this.gameStatus = "Game Ends in Draw!";
+      return false;
+    }
+    this.turnToNextPlayer(1);
+
+  }
+
+  actionForJack(){
+    //Next player should draw 4 cards
+    this.printStatus(this.currentPlayer.name + " discared Jack card.");
+
+    //The Immediate Player
+    let affectedPlayer = nextPlayer(this.players, this.currentPlayer, this.reverseMode, 0); //The next player on the sequence
+    this.printStatus(affectedPlayer.name + " should pick 4 cards and is skipped from playing");
+
+    if (this.drawCards(affectedPlayer, 4) == false) {
+      this.printStatus("There are no cards available to draw.")
+      this.gameStatus = "Game Ended in Draw !";
+      return false;
+    }
+
+    //Next player, skipping the immediate player
+    this.turnToNextPlayer(1);
+    
+  }
+
+  actionForAce(){
+    this.printStatus(this.currentPlayer.name + " discared Ace card.");
+
+          //The immediate player
+          let playerSkipped = nextPlayer(this.players, this.currentPlayer, this.reverseMode, 0);
+          this.printStatus(playerSkipped.name + " is skipped.");
+
+          //Next player, skipping the immediate player, skip 1
+          this.turnToNextPlayer(1);
+
+  }
+
+
+
+
   play() {
     //Game Loop
     //Initialisations
-    let currentPlayer = this.players[0];
-    let reverseMode = false;
     console.log("\n Game Start! \n")
 
 
     //Until the game ends
     while (true) {
 
-      this.printPlayerStatus(currentPlayer)
-      let matchedCard = findMatch(this.discardPileTopCard(), currentPlayer);
+      this.printPlayerStatus()
+      let matchedCard = findMatch(this.discardPileTopCard(), this.currentPlayer);
       this.printCardDetails("Card on top of discarded pile : ",this.discardPileTopCard())
 
       //check if there is a matching card to discard
       if (matchedCard == null) {
         this.printStatus("There are no matching cards to discard. " +
-            currentPlayer.name +
+            this.currentPlayer.name +
             " should pick a card."
         );
 
         //pick a card from the deck
-        if(this.drawCards(currentPlayer,1)==false){
+        if(this.drawCards(this.currentPlayer,1)==false){
           this.printStatus("Status : There are no cards available to draw.")
           this.gameStatus = "Game Ends in Draw!";
           break
         }
         else{
-          this.printStatus(currentPlayer.name + " picks a card. Game continues")
-          currentPlayer = nextPlayer(this.players, currentPlayer, reverseMode, 0);
+          this.printStatus(this.currentPlayer.name + " picks a card. Game continues")
+          this.currentPlayer = nextPlayer(this.players, this.currentPlayer, this.reverseMode, 0);
         }
       } 
 
@@ -197,70 +260,38 @@ class Match {
         this.printCardDetails("Card matching to discard : ",matchedCard)
         this.discardPile.push(matchedCard); 
 
-        if (this.didPlayerWin(currentPlayer) == true) {
-          this.printStatus(currentPlayer.name + " completed all the cards.");
-          this.gameStatus = currentPlayer.name + " won the match !!";
+        if (this.didPlayerWin(this.currentPlayer) == true) {
+          this.printStatus(this.currentPlayer.name + " completed all the cards.");
+          this.gameStatus = this.currentPlayer.name + " won the match !!";
           break;
         }
 
         //Check if the matched card has any rank to take action
         
         if (matchedCard.rank == "King") {
-          //Game should reverse
-          reverseMode = !reverseMode;
-          this.printStatus(currentPlayer.name + " used King card.");
-          this.printStatus("The game will now go in reverse direction!");
-          currentPlayer = nextPlayer(this.players, currentPlayer, reverseMode, 0);
+          this.actionForKing();
         } 
         
         else if (matchedCard.rank == "Queen") {
           //Next player should draw two cards
-          this.printStatus(currentPlayer.name + " discared Queen card.");
-          
-          let affectedPlayer = nextPlayer(this.players, currentPlayer, reverseMode, 0); //The next player on the sequence
-          this.printStatus(affectedPlayer.name + " should pick 2 cards and is skipped from playing");
-
-          if (this.drawCards(affectedPlayer, 2) == false) {
-            this.printStatus("There are no cards available to draw.");
-            this.gameStatus = "Game Ends in Draw!";
+          if(this.actionForQueen()==false){
             break;
           }
-
-          currentPlayer = nextPlayer(this.players, currentPlayer, reverseMode, 1); //The next player on the sequence to continue the game
         } 
         
         else if (matchedCard.rank == "Jack") {
-          //Next player should draw 4 cards
-          this.printStatus(currentPlayer.name + " discared Jack card.");
-
-          //The Immediate Player
-          let affectedPlayer = nextPlayer(this.players, currentPlayer, reverseMode, 0); //The next player on the sequence
-          this.printStatus(affectedPlayer.name + " should pick 4 cards and is skipped from playing");
-  
-          if (this.drawCards(affectedPlayer, 4) == false) {
-            this.printStatus("There are no cards available to draw.")
-            this.gameStatus = "Game Ended in Draw !";
+          if(this.actionForJack()==false){
             break;
           }
-
-          //Next player, skipping the immediate player
-          currentPlayer = nextPlayer(this.players, currentPlayer, reverseMode, 1); //The next player on the sequence to continue the game
         }
         
         else if (matchedCard.rank == "Ace") {
-          this.printStatus(currentPlayer.name + " discared Ace card.");
-
-          //The immediate player
-          let playerSkipped = nextPlayer(this.players, currentPlayer, reverseMode, 0);
-          this.printStatus(playerSkipped.name + " is skipped.");
-
-          //Next player, skipping the immediate player, skip 1
-          currentPlayer = nextPlayer(this.players, currentPlayer, reverseMode, 1);
+          this.actionForAce();
         } 
         
         else {
-          this.printStatus(currentPlayer.name +" discards the card. The game continues")
-          currentPlayer = nextPlayer(this.players, currentPlayer, reverseMode, 0);
+          this.printStatus(this.currentPlayer.name +" discards the card. The game continues")
+          this.turnToNextPlayer(0);
         }
 
       }
