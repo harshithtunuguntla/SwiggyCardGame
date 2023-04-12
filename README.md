@@ -30,7 +30,7 @@ The game can end in two ways. Either the player wins if all the cards in his han
 
 # Installation and Usage
 
-1. To install this application, first clone the repository : git clone https://github.com/harshithtunuguntla/SwiggyCardGame/
+1. To install this application, first clone the repository : `git clone https://github.com/harshithtunuguntla/SwiggyCardGame/`
 
 2. Then, navigate to the project directory and follow the commands to install the dependencies and run the project.
 
@@ -51,7 +51,9 @@ After succesfull installation of the code and dependencies. Start the game by `n
 
 # Working flow of the Game
 
-Flow of the game is displayed here
+The complete flow of the game from start to end with all the possibilities of winning a game or ending the game in draw are detailed in the diagram.
+
+![Flowchart](https://user-images.githubusercontent.com/53993341/231504718-ce5280c1-ca3f-49c4-aeda-d69c5087c08b.png)
 
 # Demo
 
