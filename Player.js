@@ -3,6 +3,10 @@ class Player {
       this.name = name;
       this.hand = [];
     }
+
+    insertCard(card){
+      this.hand.push(card);
+    }
 }
 
 module.exports = Player;
