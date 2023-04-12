@@ -23,24 +23,23 @@ No of turns, Game Stats at the end of the game - Done
 Need to optimise the code
 Need to improve the readability of the code - Done, still needs improvement
 Need to improvise helper files - Done, will improvise more
-Improvise the naming convention
-Add more clear and consice comments
-Breakdown the game play into more methods
-If possible, need to add the manual game play
-Handle the case when players*cards exceed 52
-Need to add the unit tests for the cases
-Need to document the code and the useage
-Remove/comment all the console logs
-Put semicolons
+Improvise the naming convention - Done
+Add more clear and consice comments - Done, will improvise more
+Breakdown the game play into more methods - Atomic breakdown done, will look into it if there is a requirement
+If possible, need to add the manual game play - No need as of now
+Handle the case when players*cards exceed 52 - Done
+Need to add the unit tests for the cases - Working on it
+Need to document the code and the useage - Working on it
+Remove/comment all the console logs - Done, will remove rest of them at the end
+Put semicolons - Will impovise code at the end
 
-Is ther a need to create backend end points for the same?
+Is ther a need to create backend end points for the same? - Not necessary in the time span
 
-Need to show the output of the match in more good way
-Change all looping variables
+Need to show the output of the match in more good way - Done, will work on it once rest of it is done
+Change all looping variables - Working on it, will improvise
 
 
-Can the person picking up the card play the immediate turn?
-
+Can the person picking up the card play the immediate turn? - No, Done
 
 
 Unit Tests : 
