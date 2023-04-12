@@ -67,6 +67,16 @@ There have been extensive test cases written in this project to end-to-end test 
 
 # Game Results [Screenshots]
 
+Game Inputs to start the game
+![image](https://user-images.githubusercontent.com/53993341/231505944-d88ca078-440b-4917-9d31-fb8acd808d8b.png)
+
+Game Progress
+![image](https://user-images.githubusercontent.com/53993341/231506212-745a50b5-6b51-47e7-b6ea-ab54b2f0d62c.png)
+
+Game Results
+![image](https://user-images.githubusercontent.com/53993341/231506357-674bf59f-8f68-4b16-83ab-1aeef227f4c3.png)
+
+
 ## Authors
 - [@harshithtunuguntla](https://www.linkedin.com/in/harshithtunuguntla)
 
