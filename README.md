@@ -63,22 +63,38 @@ Video Demonstration will appear here
 
 # Test Cases
 
-There have been extensive test cases written in this project to end-to-end test the whole working. All the test cases and screenshots will be displayed here
+There have been extensive test cases written in this project to end-to-end test the whole working. All the test cases and screenshots will be displayed here.
+
+![image](https://user-images.githubusercontent.com/53993341/231507743-4de46f63-4eab-43e9-a22c-f00145b031b8.png)
+![image](https://user-images.githubusercontent.com/53993341/231507820-3d234d30-fca1-46b4-aaa6-dd33d0ca3e53.png)
+
+
 
 # Game Results [Screenshots]
 
-Game Inputs to start the game
+- Game Inputs to start the game
 ![image](https://user-images.githubusercontent.com/53993341/231505944-d88ca078-440b-4917-9d31-fb8acd808d8b.png)
 
-Game Progress
+- Progress of the game
 ![image](https://user-images.githubusercontent.com/53993341/231506212-745a50b5-6b51-47e7-b6ea-ab54b2f0d62c.png)
 
-Game Results
+- Results of the game
 ![image](https://user-images.githubusercontent.com/53993341/231506357-674bf59f-8f68-4b16-83ab-1aeef227f4c3.png)
 
 
-## Authors
-- [@harshithtunuguntla](https://www.linkedin.com/in/harshithtunuguntla)
+# Code Breakdown
+
+![image](https://user-images.githubusercontent.com/53993341/231507925-9ec1daa9-ba97-401b-8f33-0f551a5d49bc.png)
+- `helperClasses` contains the class files that are used to create objects and perform the game
+- `helperFunction` contains the functions that are used to build the game logic
+- `Implementation Docs` contain the game development progress, work pending and tracking
+- `node_modules` contain the node packages installed using `npm install`
+- `test` directory contains the test files that contains unit tests
+- `.gitignore` contains the files that are to be discarded while pushing on the github
+- `index.js` is the entry file to run the code
+- `package.json` file is a manifest file in the root directory of a Node.js. It contains metadata about the project, including its name, version, author, dependencies, and more
+- `README.md` is a markdown file containing details of the whole project, the documentations and snapshots
+
 
 
 
